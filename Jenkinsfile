@@ -1,5 +1,5 @@
 pipeline {
-
+def mvnHome
 		environment {
     		imagename = "dockercomposerfile/cd-project"
    			registryCredential = 'dockerhub'
@@ -9,12 +9,14 @@ pipeline {
         agent any
         
         tools{
-                maven 'Maven'
+        
+        mvnHome = tool 'maven1'
+                
         }
         
         stages{
            
-        	  stage('Building image') {
+        	  stage('Building image ...') {
       				steps{
        					 script {
        						   dockerImage = docker.build imagename
@@ -22,7 +24,7 @@ pipeline {
       					}
    				 }
    				 
-     		   stage('Deploy Image') {
+     		   stage('Deploy Image ...') {
  				     steps{
        					 script {
         						  docker.withRegistry( '', registryCredential ) {
